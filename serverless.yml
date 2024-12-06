@@ -1,0 +1,31 @@
+service: contacts-api
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: eu-central-1
+  stage: dev
+  memorySize: 128
+  timeout: 10
+
+functions:
+  api:
+    handler: src/server.handler
+    events:
+      - httpApi:
+          path: /{proxy+}
+          method: ANY
+
+plugins:
+  - serverless-offline
+  - serverless-http
+
+package:
+  exclude:
+    - node_modules/**
+    - .gitignore
+    - .git/**
+    - README.md
+    - .env
